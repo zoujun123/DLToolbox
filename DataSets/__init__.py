@@ -1,0 +1,1 @@
+from . import Mnist,FashionMnist,GermanCredit
