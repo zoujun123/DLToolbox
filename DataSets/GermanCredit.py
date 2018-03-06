@@ -3,7 +3,7 @@ from mxnet.gluon import data as mxdata
 
 from experiment_frame.Base.Data import load, AbsDataSet
 from mxnet import nd
-from imblearn import under_sampling
+from imblearn import under_sampling,over_sampling
 import random
 def init(bsize):
     data,label=load("GermanCredit.npz")
@@ -13,9 +13,13 @@ def init(bsize):
     # data=np.concatenate([data,norm,ag],axis=1)
     #使用sin和cos信息
     # data=np.concatenate([np.sin(data),np.cos(data)],axis=1)
+
     # 下采样 制造平衡样本
-    cr = under_sampling.NearMiss(version=3)
-    data,label=cr.fit_sample(data,label)
+    # cr = under_sampling.NearMiss(version=3)
+    # data,label=cr.fit_sample(data,label)
+    #上采样 制造平衡样本
+    ocr=over_sampling.ADASYN()
+    data,label=ocr.fit_sample(data,label)
     #混肴
     idx=list(range(len(data)))
     random.shuffle(idx)

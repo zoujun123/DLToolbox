@@ -44,3 +44,4 @@ class CircleQueue(LimitQueue):
         if len(self)==self.m_max_len:
             self.pop(0)
         super(CircleQueue,self).put(x)
+

@@ -86,7 +86,7 @@ class Evaluator():
         print(f"当前训练loss:{now_loss.asscalar()}")
         # 验证
         # 训练集
-        if not (train_tuple is None):
+        if train_tuple is not None:
             data = train_tuple[0]
             label = train_tuple[1]
             meanlist = mod.evaluation(data, label)
@@ -96,7 +96,7 @@ class Evaluator():
             if detail:
                 self.graph.log(f"{mod_name}-Train-Crossentropy", cro)
         # 测试集
-        if not (test_loader is None):
+        if test_loader is not None:
             # nl ml分别为指标的名字列表和值列表
             nl, ml = self.print_eval(mod, test_loader, dtname="测试集", **kwargs)
             ls,acc, cro = ml[0], ml[1], ml[2]
