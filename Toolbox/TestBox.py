@@ -5,13 +5,15 @@ from ..Trainer.BaseTrainer import TrainInfo
 from mxnet.gluon import Trainer
 from ..Base.Data import AbsDataSet
 from .Evaluator import Evaluator
-def get_tf_from_Model(name:str,model:Model,learning_rate=0.01,optimizer="rmsprop",wd=0,clip=0,testiters=3):
+from mxnet.gluon import ParameterDict
+
+def get_tf_from_Model(name:str,model:IModel,custom_params:ParameterDict,learning_rate=0.01,optimizer="rmsprop",wd=0,clip=0,testiters=3):
     optp={"learning_rate":learning_rate}
     if wd>0:
         optp["wd"]=wd
     if clip>0:
         optp["clip_gradient"]=clip
-    tr=Trainer(model.collect_params(),"rmsprop",optimizer_params=optp)
+    tr=Trainer(custom_params,"rmsprop",optimizer_params=optp)
     tf=TrainInfo(model,tr,print_period=100,modname=name,keep_stale=True,test_iter=testiters,train_count_on_batch=1,show_traininfo=True)
     return tf
 
@@ -82,6 +84,8 @@ def cross_validation_infos(infos:List[TrainInfo],ds:AbsDataSet,epochs=5,method='
     print("正在测试最终效果......")
     for info in infos:
         Evaluator(graph=False).print_eval(info.model,ds.test(),dtname=f"{info.modname}-测试集")
+
+
 def cross_validation_model(name:str,model:Model,ds:AbsDataSet,epochs=5,loadfile=False,reinit=True,finaltest=False,*args,**kwargs):
     """
     交叉验证单个模型
@@ -93,6 +97,6 @@ def cross_validation_model(name:str,model:Model,ds:AbsDataSet,epochs=5,loadfile=
     :param kwargs:其他Traininfo
     :return:
     """
-    info=get_tf_from_Model(name=name,model=model,*args,**kwargs)
-    cross_validation_infos([info],ds,epochs=epochs,loadfile=loadfile,reinit=reinit,finaltest=finaltest)
+    info=get_tf_from_Model(name=name,model=model,custom_params=model.collect_params(),*args,**kwargs)
+    cross_validation_infos([info],ds,epochs=epochs,loadfile=loadfile,reinit=reinit,finaltest=finaltest,roc_pos=0)
 

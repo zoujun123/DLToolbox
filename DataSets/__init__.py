@@ -1,1 +1,1 @@
-from . import Mnist,FashionMnist,GermanCredit,CIFAR100,CIFAR10
+from . import Mnist,FashionMnist,GermanCredit,CIFAR100,CIFAR10,Kaggle
