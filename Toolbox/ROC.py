@@ -10,7 +10,7 @@ from sklearn.metrics import roc_curve, auc
 # Data IO and generation
 
 # Import some data to play with
-from experiment_frame.Base.Model import IModel, IPredictable
+from experiment_frame.Base.Model import IPredictable
 
 
 class ROCCurve():

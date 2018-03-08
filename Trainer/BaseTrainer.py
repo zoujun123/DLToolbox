@@ -17,7 +17,7 @@ class TrainInfo():
     model_path="./model_params"
     """信息类"""
     def __init__(self, model:IModel, trainer:gluon.Trainer,
-                 print_period, modname, detail=False,
+                 print_period, modname,
                  show_traininfo=False,keep_stale=False,
                  limit_down=None, test_iter=None,
                  train_count_on_batch=1,global_eval=True,
@@ -84,7 +84,6 @@ class BaseTrainer():
 
         modname=traininfo.modname
         keep_stale=traininfo.keep_stale
-        detail=traininfo.detail
         test_iter=traininfo.test_iter
         modpars=traininfo.modpars
         train_count_on_batch=traininfo.train_count_on_batch
@@ -112,14 +111,13 @@ class BaseTrainer():
         #参数
         model = traininfo.model
         modname = traininfo.modname
-        detail = traininfo.detail
         test_iter = traininfo.test_iter
         show_traininfo=traininfo.show_traininfo
         if not show_traininfo:
             train_tuple=None
         #输出
         print(f"{modname}模型:")
-        self.evaluater.draw_params(model, loss, test_loader=self.test_dl, mod_name=modname, detail=detail, maxiters=test_iter, train_tuple=train_tuple)
+        self.evaluater.draw_params(model, loss, test_loader=self.test_dl, mod_name=modname, maxiters=test_iter, train_tuple=train_tuple)
     @abstractmethod
     def train_models(self, tlist: List[TrainInfo]):
         """实际训练一组模型"""

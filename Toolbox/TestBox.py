@@ -7,14 +7,14 @@ from ..Base.Data import AbsDataSet
 from .Evaluator import Evaluator
 from mxnet.gluon import ParameterDict
 
-def get_tf_from_Model(name:str,model:IModel,custom_params:ParameterDict,learning_rate=0.01,optimizer="rmsprop",wd=0,clip=0,testiters=3):
+def get_tf_from_Model(name:str,model:IModel,custom_params:ParameterDict,learning_rate=0.01,optimizer="rmsprop",wd=0,clip=0,testiters=3,loadfile=False):
     optp={"learning_rate":learning_rate}
     if wd>0:
         optp["wd"]=wd
     if clip>0:
         optp["clip_gradient"]=clip
     tr=Trainer(custom_params,"rmsprop",optimizer_params=optp)
-    tf=TrainInfo(model,tr,print_period=100,modname=name,keep_stale=True,test_iter=testiters,train_count_on_batch=1,show_traininfo=True)
+    tf=TrainInfo(model,tr,print_period=100,modname=name,keep_stale=True,test_iter=testiters,train_count_on_batch=1,show_traininfo=True,loadfile=loadfile)
     return tf
 
 def get_tf(*args,**kwargs):
@@ -25,13 +25,14 @@ from typing import Callable,List
 from .CrossValidation import ROCKcv,CrossValidation
 from ..Trainer import FlowTrainer,SyncTrainer
 #实际交叉验证函数
+splitcount=3
 def roc_cross_validation(model:IPredictable, func: Callable[[AbsDataSet], None], ds:AbsDataSet):
     """带ROC曲线绘制的交叉验证"""
-    ROCKcv(ds,model,splitcount=3).cross_validation(func,realtest=False)
+    ROCKcv(ds,model,splitcount=splitcount).cross_validation(func,realtest=False)
 
 def cross_validation(func: Callable[[AbsDataSet], None], ds:AbsDataSet):
     "不带ROC曲线绘制的交叉验证"
-    CrossValidation(ds,splitcount=3).cross_validation(func,realtest=False)
+    CrossValidation(ds,splitcount=splitcount).cross_validation(func,realtest=False)
 
 #工具函数
 from .Evaluator import Evaluator
