@@ -57,8 +57,7 @@ class TrainInfo():
         return True
 
 
-logfile=open("./train_log.txt","a")
-logfile.write("\n\n\n===============================================\n\n\n")
+
 class BaseTrainer():
     __metaclass__=ABCMeta
     def __init__(self, epochs:int, dataset:AbsDataSet,loss_trans:Callable[[nd.NDArray],None]=None):
@@ -132,6 +131,8 @@ class BaseTrainer():
         :return: 无
         """
         from time import time,struct_time
+        logfile = open("./train_log.txt", "a")
+        logfile.write("\n\n========\n\n")
         #输出提示信息
         print("您正在使用 上清 编写的深度学习实验框架（based on mxnet/gluon）")
         print(f"当前使用数据集 {type(self.dt).__name__}进行训练和测试")
@@ -156,4 +157,5 @@ class BaseTrainer():
                 logfile.write(s)
                 #记录以防止重复验证
                 already_list.add(info.modname)
+        logfile.close()
         print("训练结束！")
