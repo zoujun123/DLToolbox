@@ -89,9 +89,14 @@ class ROCKcv(CrossValidation):
         ncol=int(math.sqrt(size))
         nrow=math.ceil(size/ncol)
         #绘制
+        plt.gcf().clear()
         for i in  range(size):
-            p=plt.subplot(nrow,ncol,i+1)
+            # p=plt.subplot(nrow,ncol,i+1)
+            p=plt.subplot(111)
             self.drawer.draw_curve(pos_label=val_start+i,plt=p)
-        plt.show()
-
+            #保存
+            plt.savefig(f"fig_{i}.png")
+            plt.gcf().clear()
+        #保存
+        # plt.savefig("fig.png")
 

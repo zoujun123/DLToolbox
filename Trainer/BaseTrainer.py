@@ -14,7 +14,7 @@ from experiment_frame.Base.Model import IModel
 from os import path
 from typing import Callable
 class TrainInfo():
-    model_path="./model_params"
+    model_path="./"
     """信息类"""
     def __init__(self, model:IModel, trainer:gluon.Trainer,
                  print_period, modname,
