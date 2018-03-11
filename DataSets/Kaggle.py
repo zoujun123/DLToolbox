@@ -15,7 +15,7 @@ def init(bsize):
     # data=np.concatenate([np.sin(data),np.cos(data)],axis=1)
 
     # 下采样 制造平衡样本
-    cr = under_sampling.NearMiss(version=3)
+    cr = under_sampling.NearMiss()
     data,label=cr.fit_sample(data,label)
     #上采样 制造平衡样本
     # ocr=over_sampling.ADASYN()
