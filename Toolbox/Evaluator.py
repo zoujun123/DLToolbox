@@ -86,6 +86,8 @@ class Evaluator():
         :param detail: 是否绘制详情
         :return: 无
         """
+        import os
+        os.system("cls")
         print(f"当前训练loss:{now_loss.asscalar()}")
         # 验证
         # 训练集
